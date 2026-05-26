@@ -1,0 +1,117 @@
+<div class="container" *ngIf="ticket">
+  <a routerLink="/dashboard" class="back-link">← Back to dashboard</a>
+
+  <div class="success-msg" *ngIf="message">{{ message }}</div>
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <div class="grid-detail">
+    <div>
+      <div class="card">
+        <div class="flex-between">
+          <div>
+            <h1>{{ ticket.title }}</h1>
+            <small class="muted">#{{ ticket.id }} · Opened by {{ ticket.createdByName }} · {{ ticket.createdAt | date:'medium' }}</small>
+          </div>
+          <div class="flex gap-2">
+            <span class="badge badge-{{ ticket.category.toLowerCase() }}">{{ ticket.category }}</span>
+            <span class="badge badge-{{ ticket.priority.toLowerCase() }}">{{ ticket.priority }}</span>
+            <span class="badge badge-{{ ticket.status.toLowerCase() }}">{{ ticket.status }}</span>
+            <span class="badge badge-escalated" *ngIf="ticket.escalated">⚠ Escalated</span>
+            <span class="badge" style="background:#fef3c7; color:#92400e" *ngIf="ticket.confidential">Confidential</span>
+          </div>
+        </div>
+
+        <p class="mt-3" style="white-space: pre-wrap">{{ ticket.description }}</p>
+
+        <div class="meta-grid mt-3">
+          <div *ngIf="ticket.requestType"><strong>Request type:</strong> {{ ticket.requestType }}</div>
+          <div *ngIf="ticket.severity"><strong>Severity:</strong> {{ ticket.severity }}</div>
+          <div *ngIf="ticket.osInfo"><strong>OS:</strong> {{ ticket.osInfo }}</div>
+          <div *ngIf="ticket.browserInfo"><strong>Browser:</strong> {{ ticket.browserInfo }}</div>
+          <div *ngIf="ticket.appVersion"><strong>App version:</strong> {{ ticket.appVersion }}</div>
+          <div *ngIf="ticket.assetTag"><strong>Asset:</strong> {{ ticket.assetTag }}</div>
+          <div *ngIf="ticket.estimatedResolutionHours"><strong>ETA:</strong> {{ ticket.estimatedResolutionHours }}h</div>
+          <div *ngIf="ticket.assignedToName"><strong>Assigned to:</strong> {{ ticket.assignedToName }}</div>
+          <div *ngIf="ticket.resolvedAt"><strong>Resolved:</strong> {{ ticket.resolvedAt | date:'medium' }}</div>
+        </div>
+      </div>
+
+      <!-- Attachments -->
+      <div class="card">
+        <h3>📎 Attachments</h3>
+        <p class="muted" *ngIf="attachments.length === 0">No attachments yet.</p>
+        <div *ngFor="let a of attachments" class="attachment-row">
+          <span>📄 {{ a.fileName }}</span>
+          <small class="muted">{{ a.fileSize }} bytes</small>
+          <a [href]="downloadUrl(a.filePath)" target="_blank">Download</a>
+        </div>
+        <div class="mt-3 flex gap-2">
+          <input type="file" (change)="onFileSelected($event)">
+          <button (click)="uploadFile()" [disabled]="!selectedFile">Upload</button>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="card">
+        <h3>Timeline</h3>
+        <div class="timeline mt-3">
+          <div *ngFor="let entry of timeline" class="timeline-item">
+            <div>
+              <strong>{{ iconFor(entry.action) }} {{ entry.action.replace('_', ' ') }}</strong>
+              <small class="muted">· {{ entry.actorName }}</small>
+            </div>
+            <small class="muted">{{ entry.createdAt | date:'medium' }}</small>
+            <p *ngIf="entry.notes">{{ entry.notes }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating prompt -->
+      <div class="card" *ngIf="canRate()">
+        <h3>How was your support experience?</h3>
+        <div class="flex gap-3 mt-3">
+          <button class="success" (click)="rate(1)">👍 Satisfied</button>
+          <button class="danger" (click)="rate(-1)">👎 Not satisfied</button>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="ticket.satisfactionRating">
+        <strong>You rated this ticket:</strong>
+        {{ ticket.satisfactionRating === 1 ? '👍 Satisfied' : '👎 Not satisfied' }}
+      </div>
+    </div>
+
+    <!-- Sidebar actions -->
+    <div *ngIf="canEdit()" class="sidebar-actions">
+      <div class="card">
+        <h3>Manage</h3>
+
+        <div class="form-group">
+          <label>Update status</label>
+          <select [(ngModel)]="newStatus">
+            <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Notes (optional)</label>
+          <textarea [(ngModel)]="statusNotes" rows="3"></textarea>
+        </div>
+        <button (click)="updateStatus()" style="width: 100%">Update Status</button>
+
+        <hr style="margin: 16px 0">
+
+        <div *ngIf="user?.role === 'ADMIN' && agents.length > 0">
+          <div class="form-group">
+            <label>Reassign to agent</label>
+            <select [(ngModel)]="selectedAgentId">
+              <option *ngFor="let a of agents" [value]="a.id">{{ a.name }} ({{ a.department }})</option>
+            </select>
+          </div>
+          <button (click)="assign()" class="secondary" style="width: 100%">Reassign</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="loading">Loading…</div>

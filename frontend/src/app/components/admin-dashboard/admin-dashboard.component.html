@@ -1,0 +1,103 @@
+<div class="container">
+  <h1>Admin Console</h1>
+
+  <div class="tabs">
+    <button [class.secondary]="view !== 'tickets'" (click)="view='tickets'">Tickets ({{ tickets.length }})</button>
+    <button [class.secondary]="view !== 'users'" (click)="view='users'">Users ({{ users.length }})</button>
+    <button class="secondary" routerLink="/analytics">Analytics</button>
+  </div>
+
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <!-- Tickets View -->
+  <div *ngIf="view === 'tickets'">
+    <div class="card filters-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status</label>
+          <select [(ngModel)]="filterStatus">
+            <option value="ALL">All</option>
+            <option value="OPEN">Open</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="RESOLVED">Resolved</option>
+            <option value="CLOSED">Closed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select [(ngModel)]="filterCategory">
+            <option value="ALL">All</option>
+            <option value="IT">IT</option>
+            <option value="BUG">Bug</option>
+            <option value="HR">HR</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Search</label>
+          <input type="text" [(ngModel)]="search" placeholder="Title or ID">
+        </div>
+      </div>
+    </div>
+
+    <p class="muted" *ngIf="loading">Loading…</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Created By</th>
+          <th>Assigned</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of filtered()" (click)="open(t)">
+          <td>#{{ t.id }}</td>
+          <td>
+            {{ t.title }}
+            <span class="badge badge-escalated" *ngIf="t.escalated">⚠</span>
+            <span class="badge" style="background:#fef3c7" *ngIf="t.confidential">🔒</span>
+          </td>
+          <td><span class="badge badge-{{ t.category.toLowerCase() }}">{{ t.category }}</span></td>
+          <td><span class="badge badge-{{ t.priority.toLowerCase() }}">{{ t.priority }}</span></td>
+          <td><span class="badge badge-{{ t.status.toLowerCase() }}">{{ t.status }}</span></td>
+          <td>{{ t.createdByName }}</td>
+          <td>{{ t.assignedToName || '—' }}</td>
+          <td class="muted">{{ t.createdAt | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Users View -->
+  <div *ngIf="view === 'users'">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Department</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+          <td>{{ u.id }}</td>
+          <td>{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td><span class="badge" style="background: #e0e7ff; color:#3730a3">{{ u.role }}</span></td>
+          <td>{{ u.department || '—' }}</td>
+          <td>
+            <button class="danger" (click)="deleteUser(u.id, u.name)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

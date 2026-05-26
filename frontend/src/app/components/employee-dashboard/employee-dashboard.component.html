@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="flex-between">
+    <h1>My Tickets</h1>
+    <button routerLink="/create">+ New Ticket</button>
+  </div>
+
+  <div class="grid-3 mt-3">
+    <div class="stat-card">
+      <div class="num">{{ tickets.length }}</div>
+      <div class="label">Total Tickets</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{{ count('OPEN') }}</div>
+      <div class="label">Open</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{{ count('IN_PROGRESS') }}</div>
+      <div class="label">In Progress</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{{ count('RESOLVED') }}</div>
+      <div class="label">Resolved</div>
+    </div>
+  </div>
+
+  <div class="filters mt-4">
+    <button [class.secondary]="filter !== 'ALL'" (click)="filter = 'ALL'">All</button>
+    <button [class.secondary]="filter !== 'OPEN'" (click)="filter = 'OPEN'">Open</button>
+    <button [class.secondary]="filter !== 'IN_PROGRESS'" (click)="filter = 'IN_PROGRESS'">In Progress</button>
+    <button [class.secondary]="filter !== 'RESOLVED'" (click)="filter = 'RESOLVED'">Resolved</button>
+    <button [class.secondary]="filter !== 'CLOSED'" (click)="filter = 'CLOSED'">Closed</button>
+  </div>
+
+  <div class="error" *ngIf="error">{{ error }}</div>
+  <p class="muted mt-3" *ngIf="loading">Loading…</p>
+
+  <div class="card mt-3" *ngIf="!loading && filtered().length === 0">
+    <p class="muted" style="text-align: center; padding: 24px">
+      No tickets to show. <a routerLink="/create">Create your first ticket</a>.
+    </p>
+  </div>
+
+  <table *ngIf="filtered().length > 0" class="mt-3">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>ETA</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of filtered()" (click)="open(t)">
+        <td>#{{ t.id }}</td>
+        <td>
+          {{ t.title }}
+          <span class="badge badge-escalated" *ngIf="t.escalated">⚠ Escalated</span>
+          <span class="badge" style="background:#fef3c7; color:#92400e" *ngIf="t.confidential">Confidential</span>
+        </td>
+        <td><span class="badge badge-{{ t.category.toLowerCase() }}">{{ t.category }}</span></td>
+        <td><span class="badge badge-{{ t.priority.toLowerCase() }}">{{ t.priority }}</span></td>
+        <td><span class="badge badge-{{ t.status.toLowerCase() }}">{{ t.status }}</span></td>
+        <td>{{ t.estimatedResolutionHours }}h</td>
+        <td class="muted">{{ t.createdAt | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

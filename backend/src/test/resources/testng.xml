@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TicketSystemTestSuite">
+    <test name="UnitTests">
+        <classes>
+            <class name="com.ticketsystem.PriorityServiceTest"/>
+            <class name="com.ticketsystem.AuthServiceTest"/>
+            <class name="com.ticketsystem.TicketServiceTest"/>
+        </classes>
+    </test>
+</suite>

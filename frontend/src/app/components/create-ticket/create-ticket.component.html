@@ -1,0 +1,148 @@
+<div class="container">
+  <h1>Create Ticket</h1>
+
+  <!-- Step 1: Compose -->
+  <div *ngIf="step === 1">
+    <div class="grid-form">
+      <div class="card">
+        <div class="error" *ngIf="error">{{ error }}</div>
+
+        <div class="form-group">
+          <label>Category *</label>
+          <div class="category-tabs">
+            <button type="button" [class.active]="category==='IT'" (click)="category='IT'; onCategoryChange()">IT</button>
+            <button type="button" [class.active]="category==='BUG'" (click)="category='BUG'; onCategoryChange()">Bug</button>
+            <button type="button" [class.active]="category==='HR'" (click)="category='HR'; onCategoryChange()">HR</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="position: relative">
+          <label>Title *</label>
+          <input type="text" [(ngModel)]="title" (ngModelChange)="onTitleChange()"
+                 placeholder="Briefly describe the issue">
+          <div class="suggestions" *ngIf="showAutofill && filteredSuggestions.length > 0">
+            <div class="muted" style="margin-bottom: 4px">Common issues:</div>
+            <div *ngFor="let s of filteredSuggestions" class="suggestion-item" (click)="selectSuggestion(s)">
+              {{ s }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea [(ngModel)]="description" rows="5"
+                    placeholder="Provide details about the issue or request"></textarea>
+        </div>
+
+        <!-- HR-specific -->
+        <div *ngIf="category === 'HR'">
+          <div class="form-group">
+            <label>Request type</label>
+            <select [(ngModel)]="requestType">
+              <option value="">-- Select request type --</option>
+              <option *ngFor="let t of hrRequestTypes" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+          <div class="form-group checkbox-row">
+            <input type="checkbox" [(ngModel)]="confidential" id="conf">
+            <label for="conf" style="margin: 0">Mark as confidential (only HR can view)</label>
+          </div>
+        </div>
+
+        <!-- Bug-specific -->
+        <div *ngIf="category === 'BUG'">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Severity</label>
+              <select [(ngModel)]="severity">
+                <option value="">-- Select --</option>
+                <option value="LOW">Low</option>
+                <option value="HIGH">High</option>
+                <option value="CRITICAL">Critical</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>App Version</label>
+              <input type="text" [(ngModel)]="appVersion" placeholder="e.g., 2.4.1">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Operating System</label>
+              <input type="text" [(ngModel)]="osInfo" placeholder="auto-detected">
+            </div>
+            <div class="form-group">
+              <label>Browser</label>
+              <input type="text" [(ngModel)]="browserInfo" placeholder="auto-detected">
+            </div>
+          </div>
+        </div>
+
+        <!-- IT-specific -->
+        <div *ngIf="category === 'IT'">
+          <div class="form-group">
+            <label>Asset Tag (optional)</label>
+            <input type="text" [(ngModel)]="assetTag" placeholder="e.g., LAPTOP-1234">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Attachment (optional)</label>
+          <input type="file" (change)="onFileSelected($event)">
+          <small class="muted" *ngIf="selectedFile">{{ selectedFile.name }}</small>
+        </div>
+
+        <div class="flex gap-2">
+          <button (click)="proceedToReview()" [disabled]="submitting || !title || !description">
+            {{ submitting ? 'Submitting…' : 'Submit ticket' }}
+          </button>
+          <button class="secondary" routerLink="/dashboard">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Sidebar with KB suggestions -->
+      <div class="sidebar">
+        <div class="card" *ngIf="kbArticles.length > 0">
+          <h3>Self-help articles</h3>
+          <p class="muted" style="font-size: 12px">Found these matching articles — they might help.</p>
+          <div *ngFor="let a of kbArticles" class="kb-item">
+            <strong>{{ a.title }}</strong>
+            <p class="muted">{{ a.content }}</p>
+          </div>
+        </div>
+
+        <div class="card" *ngIf="similarTickets.length > 0">
+          <h3>Similar tickets</h3>
+          <p class="muted" style="font-size: 12px">These already exist — please check before submitting.</p>
+          <div *ngFor="let t of similarTickets" class="similar-item" (click)="openSimilar(t)">
+            <div><strong>#{{ t.id }} {{ t.title }}</strong></div>
+            <small class="muted">
+              <span class="badge badge-{{ t.status.toLowerCase() }}">{{ t.status }}</span>
+              {{ t.createdAt | date:'shortDate' }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Similar tickets review prompt -->
+  <div *ngIf="step === 2" class="card">
+    <h2>Did you mean one of these?</h2>
+    <p>We found {{ similarTickets.length }} similar tickets. Please review before submitting a new one.</p>
+    <div *ngFor="let t of similarTickets" class="similar-item" (click)="openSimilar(t)">
+      <strong>#{{ t.id }} {{ t.title }}</strong>
+      <div>
+        <span class="badge badge-{{ t.status.toLowerCase() }}">{{ t.status }}</span>
+        <span class="badge badge-{{ t.priority.toLowerCase() }}">{{ t.priority }}</span>
+        <small class="muted">{{ t.createdAt | date:'short' }}</small>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-3">
+      <button (click)="submit()" [disabled]="submitting">
+        {{ submitting ? 'Submitting…' : 'Submit anyway' }}
+      </button>
+      <button class="secondary" (click)="step = 1">Back to edit</button>
+    </div>
+  </div>
+</div>

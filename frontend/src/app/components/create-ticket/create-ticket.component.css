@@ -1,0 +1,32 @@
+.grid-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 800px) {
+  .grid-form { grid-template-columns: 1fr; }
+}
+.category-tabs {
+  display: flex;
+  gap: 8px;
+}
+.category-tabs button {
+  flex: 1;
+  background: #f3f4f6;
+  color: #4b5563;
+  padding: 10px;
+}
+.category-tabs button.active {
+  background: #2563eb;
+  color: white;
+}
+.sidebar h3 { margin-bottom: 12px; }
+.kb-item, .similar-item {
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.kb-item:hover, .similar-item:hover { background: #f3f4f6; }
+.kb-item p { font-size: 12px; margin-top: 4px; }

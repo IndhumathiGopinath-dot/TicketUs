@@ -1,0 +1,33 @@
+<nav class="navbar" *ngIf="user">
+  <div class="nav-left">
+    <a routerLink="/" class="logo">TicketSystem</a>
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/create" routerLinkActive="active">New Ticket</a>
+    <a routerLink="/knowledge" routerLinkActive="active">Knowledge Base</a>
+    <a routerLink="/admin" routerLinkActive="active" *ngIf="user.role === 'ADMIN'">Admin</a>
+    <a routerLink="/analytics" routerLinkActive="active" *ngIf="user.role === 'ADMIN'">Analytics</a>
+  </div>
+  <div class="nav-right">
+    <div class="notif-wrapper">
+      <button class="notif-btn secondary" (click)="toggleDropdown()">
+        🔔 <span class="badge-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+      </button>
+      <div class="notif-dropdown" *ngIf="showDropdown">
+        <div class="dropdown-header">
+          <strong>Notifications</strong>
+          <a (click)="markAllRead()" style="cursor:pointer; font-size: 12px">Mark all read</a>
+        </div>
+        <div class="empty" *ngIf="notifications.length === 0">No notifications yet</div>
+        <div *ngFor="let n of notifications.slice(0, 10)"
+             class="notif-item"
+             [class.unread]="!n.read"
+             (click)="openNotification(n)">
+          <div>{{ n.message }}</div>
+          <small class="muted">{{ n.createdAt | date:'short' }}</small>
+        </div>
+      </div>
+    </div>
+    <span class="user-info">{{ user.name }} <span class="role-tag">{{ user.role }}</span></span>
+    <button class="secondary" (click)="logout()">Logout</button>
+  </div>
+</nav>
