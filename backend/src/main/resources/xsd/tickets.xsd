@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://ticketsystem.com/soap/tickets"
+           targetNamespace="http://ticketsystem.com/soap/tickets"
+           elementFormDefault="qualified">
+
+    <xs:element name="getTicketStatsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- Optional category filter: IT | BUG | HR (omit for all) -->
+                <xs:element name="category" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getTicketStatsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="totalTickets"    type="xs:long"/>
+                <xs:element name="openTickets"     type="xs:long"/>
+                <xs:element name="resolvedTickets" type="xs:long"/>
+                <xs:element name="closedTickets"   type="xs:long"/>
+                <xs:element name="categoryFilter"  type="xs:string" minOccurs="0"/>
+                <xs:element name="generatedAt"     type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

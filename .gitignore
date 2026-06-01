@@ -1,34 +1,45 @@
-# Java / Maven
-target/
-*.class
-*.jar
-*.war
-*.log
-.mvn/
+# ===== Build outputs =====
+**/target/
+**/node_modules/
+**/dist/
+**/.angular/
+**/build/
 
-# IDE
+# ===== IDE =====
 .idea/
-*.iml
 .vscode/
-.classpath
+*.iml
+*.iws
+*.ipr
 .project
+.classpath
 .settings/
 
-# Node / Angular
-node_modules/
-dist/
-.angular/
+# ===== Logs =====
 *.log
-npm-debug.log*
+logs/
 
-# OS
+# ===== OS =====
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Uploads
-backend/uploads/*
-!backend/uploads/.gitkeep
-test-uploads/
-
-# Environment
+# ===== Environment / secrets =====
 .env
+.env.local
+*.pem
+*.key
+
+# ===== Test artifacts =====
+qa-tests/target/
+qa-tests/screenshots/
+
+# ===== Backend uploads =====
+backend/files/
+backend/uploads/
+
+# ===== Maven =====
+.mvn/wrapper/maven-wrapper.jar
+
+# ===== Angular cache =====
+.angular/cache/

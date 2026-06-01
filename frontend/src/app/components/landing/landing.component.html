@@ -1,0 +1,120 @@
+<div class="landing">
+
+  <!-- Top nav -->
+  <nav class="nav">
+    <div class="brand">Ticketus</div>
+    <div class="nav-links">
+      <a href="#help">Features</a>
+      <a href="#process">Process</a>
+      <a href="#cta">Get started</a>
+    </div>
+    <a routerLink="/login" class="nav-cta">Log in →</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="display">
+      Ticketing.
+    </h1>
+    <div class="hero-meta">
+      <p class="tagline">
+        a modern internal ticket platform for IT, Bugs, and HR — with smart routing, role-based access, and a unified dashboard.
+      </p>
+      <div class="hero-side">
+        <p class="muted">Let's get connected</p>
+        <ul class="links">
+          <li><a routerLink="/signup">Sign up</a></li>
+          <li><a routerLink="/login">Log in</a></li>
+          <li><a routerLink="/knowledge">Knowledge base</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="hero-body">
+      I help teams handle internal requests with clarity. Spotless ticket creation, sensible auto-priority, and a unified admin dashboard so nothing falls through.
+    </p>
+    <a routerLink="/signup" class="pill-dark">
+      <span>Get started</span>
+      <span class="dot">●</span>
+    </a>
+  </section>
+
+  <!-- I can help -->
+  <section id="help" class="help">
+    <h2 class="section-title">What Ticketus does …</h2>
+    <div class="help-grid">
+      <div class="help-card" *ngFor="let item of helpItems">
+        <div class="help-num">{{ item.num }}</div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.text }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent activity (selected work style) -->
+  <section class="work">
+    <div class="work-header">
+      <h2 class="section-title">Recent activity <sup>(4)</sup></h2>
+      <p class="muted">A sample of what flows through Ticketus</p>
+    </div>
+    <div class="work-list">
+      <div class="work-row" *ngFor="let w of recentWork">
+        <div class="work-info">
+          <h3>{{ w.name }}</h3>
+          <p>{{ w.meta }}</p>
+        </div>
+        <div class="work-year">{{ w.year }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Want to see more -->
+  <section class="more">
+    <h3>Want to see more?</h3>
+    <p>Sign in with a demo account: <strong>john&#64;company.com</strong> / <strong>password123</strong></p>
+  </section>
+
+  <!-- Process -->
+  <section id="process" class="process">
+    <div class="process-left">
+      <h2 class="section-title">My way of getting<br/>things done</h2>
+      <p class="muted">
+        Fast and transparent. The path from "I have an issue" to "It's resolved" is short, traceable, and never a black box.
+      </p>
+    </div>
+    <div class="process-list">
+      <div class="process-row" *ngFor="let p of process">
+        <div class="process-num">{{ p.num }}</div>
+        <div class="process-title">{{ p.title }}</div>
+        <div class="process-icon">+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section id="cta" class="cta">
+    <div class="cta-content">
+      <div class="cta-avatar">🎟️</div>
+      <h2 class="cta-text">
+        Let's talk about<br/>tickets, teams, or<br/>an idea you may have
+      </h2>
+    </div>
+    <a routerLink="/signup" class="pill-dark">
+      <span>Get started</span>
+      <span class="dot">●</span>
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      © 2026 Ticketus. Designed & coded with ❤
+    </div>
+    <div class="footer-mid">
+      <a routerLink="/login">Log in</a>
+      <a routerLink="/signup">Sign up</a>
+      <a routerLink="/knowledge">Knowledge</a>
+    </div>
+    <a href="#" class="footer-top">Back to top ↑</a>
+  </footer>
+
+</div>

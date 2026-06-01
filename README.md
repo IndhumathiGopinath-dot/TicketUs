@@ -242,7 +242,10 @@ All endpoints prefixed with `/api`. Protected endpoints require `Authorization: 
 **Port already in use** — Change `server.port` in `application.properties` and the `apiUrl` in `environment.ts` accordingly.
 
 ---
-
+Email                      Password         Role                  Department
+it.admin@company.com       admin123         ADMIN                     IT               
+hr.admin@company.com       admin123         ADMIN                     HR 
+john@company.com           password123      EMPLOYEE                  Engineering
 ## License
 
 MIT

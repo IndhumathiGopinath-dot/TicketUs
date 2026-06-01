@@ -1,13 +1,13 @@
 package com.ticketsystem.controller;
 
 import com.ticketsystem.dto.TicketDtos;
-import com.ticketsystem.exception.AppException;
 import com.ticketsystem.model.Ticket;
 import com.ticketsystem.model.User;
 import com.ticketsystem.model.enums.Role;
 import com.ticketsystem.repository.UserRepository;
 import com.ticketsystem.service.AnalyticsService;
 import com.ticketsystem.service.TicketService;
+import com.ticketsystem.service.UserDeletionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +24,16 @@ public class AdminController {
     private final UserRepository userRepository;
     private final TicketService ticketService;
     private final AnalyticsService analyticsService;
+    private final UserDeletionService userDeletionService;
 
     public AdminController(UserRepository userRepository,
                            TicketService ticketService,
-                           AnalyticsService analyticsService) {
+                           AnalyticsService analyticsService,
+                           UserDeletionService userDeletionService) {
         this.userRepository = userRepository;
         this.ticketService = ticketService;
         this.analyticsService = analyticsService;
+        this.userDeletionService = userDeletionService;
     }
 
     @GetMapping("/analytics")
@@ -73,10 +76,7 @@ public class AdminController {
     public ResponseEntity<Map<String, String>> deleteUser(
             @PathVariable Long id,
             @AuthenticationPrincipal User actor) {
-        if (actor.getId().equals(id)) {
-            throw new AppException("Cannot delete yourself");
-        }
-        userRepository.deleteById(id);
+        userDeletionService.deleteUserCascade(id, actor.getId());
         return ResponseEntity.ok(Map.of("message", "User deleted"));
     }
 

@@ -39,11 +39,11 @@ public class PriorityServiceTest {
     }
 
     @Test
-    public void testNormalDefault() {
-        Priority p = service.computePriority("Some random request",
-                "Need to update my profile picture", Category.HR, null);
-        Assert.assertEquals(p, Priority.NORMAL);
-    }
+public void testNormalDefault() {
+    Priority p = service.computePriority("Office supplies",
+            "Need new pens for my desk", Category.HR, null);
+    Assert.assertEquals(p, Priority.NORMAL);
+}
 
     @Test
     public void testBugSeverityCriticalOverridesKeywords() {

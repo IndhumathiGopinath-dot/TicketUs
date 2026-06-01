@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TicketSystemQASuite" parallel="false" verbose="1">
+
+    <listeners>
+        <listener class-name="com.ticketsystem.qa.utils.SuiteListener"/>
+    </listeners>
+
+    <test name="SuiteSetup">
+        <classes>
+            <class name="com.ticketsystem.qa.utils.SuiteSetup"/>
+        </classes>
+    </test>
+
+    <test name="REST">
+        <classes>
+            <class name="com.ticketsystem.qa.rest.RestAuthTest"/>
+            <class name="com.ticketsystem.qa.rest.RestTicketTest"/>
+        </classes>
+    </test>
+
+    <test name="RestAssured">
+        <classes>
+            <class name="com.ticketsystem.qa.restassured.RestAssuredAuthTest"/>
+            <class name="com.ticketsystem.qa.restassured.RestAssuredTicketTest"/>
+        </classes>
+    </test>
+
+    <test name="SOAP">
+        <classes>
+            <class name="com.ticketsystem.qa.soap.SoapTicketStatsTest"/>
+        </classes>
+    </test>
+
+    <test name="UI-Selenium">
+        <classes>
+            <class name="com.ticketsystem.qa.ui.tests.UiLoginTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UiTicketCreationTest"/>
+        </classes>
+    </test>
+
+    <test name="Cucumber-BDD">
+        <classes>
+            <class name="com.ticketsystem.qa.bdd.runners.CucumberTestRunner"/>
+        </classes>
+    </test>
+
+</suite>

@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
     List<Attachment> findByTicket(Ticket ticket);
+
+    /** Used during ticket-deletion cascade. */
+    void deleteByTicket(Ticket ticket);
 }
