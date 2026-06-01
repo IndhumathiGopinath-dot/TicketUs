@@ -66,35 +66,6 @@ A full-stack ticket management application with Angular (frontend), Spring Boot 
 | Testing  | TestNG, Selenium, Rest Assured, Cucumber       |
 
 ---
-
-## Project Structure
-ticket-system/
-├── backend/                          Spring Boot application
-│   ├── pom.xml
-│   └── src/main/java/com/ticketsystem/
-│       ├── TicketSystemApplication.java
-│       ├── config/                   JWT, security, CORS, data seeder
-│       ├── controller/               REST endpoints
-│       ├── dto/                      Request/response objects
-│       ├── exception/                Global handler
-│       ├── model/                    JPA entities + enums
-│       ├── repository/               Spring Data JPA repositories
-│       └── service/                  Business logic
-│   └── src/main/resources/application.properties
-│   └── src/test/                     TestNG tests
-├── frontend/                         Angular application
-│   ├── package.json
-│   ├── angular.json
-│   └── src/app/
-│       ├── components/               Each feature has its own component
-│       ├── services/                 Auth, ticket, admin, notification, knowledge
-│       └── guards/                   Route guards (auth, admin)
-└── qa-tests/                         Standalone QA suite
-├── pom.xml
-└── src/test/                     REST, SOAP, UI, BDD tests
-
----
-
 ## Quick Start
 
 ### Prerequisites
