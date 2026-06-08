@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TicketusQASuite-Smoke" verbose="1">
+
+    <!-- Smoke-only run — uses GROUPS to filter just the @Test methods tagged "smoke" -->
+    <listeners>
+        <listener class-name="com.ticketsystem.qa.support.SuiteListener"/>
+        <listener class-name="com.ticketsystem.qa.support.TestListener"/>
+    </listeners>
+
+    <test name="Smoke-Tests">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.ticketsystem.qa.ui.tests"/>
+            <package name="com.ticketsystem.qa.api.tests"/>
+        </packages>
+    </test>
+
+</suite>

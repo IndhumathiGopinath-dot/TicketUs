@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TicketusQASuite" verbose="1" parallel="false">
+
+    <!-- LISTENERS: TestListener captures method-level events,
+         SuiteListener manages suite lifecycle (Excel report, ExtentReports) -->
+    <listeners>
+        <listener class-name="com.ticketsystem.qa.support.SuiteListener"/>
+        <listener class-name="com.ticketsystem.qa.support.TestListener"/>
+    </listeners>
+
+    <!-- SELENIUM UI TESTS (Priority 1 — 8 tests) -->
+    <test name="Selenium-UI">
+        <classes>
+            <class name="com.ticketsystem.qa.ui.tests.UI01_LoginAdminTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI02_LoginInvalidTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI03_LoginEmployeeTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI04_SignupTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI05_CreateITTicketTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI06_CreateBugTicketTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI07_CreateHRConfidentialTest"/>
+            <class name="com.ticketsystem.qa.ui.tests.UI08_KnowledgeBaseTest"/>
+        </classes>
+    </test>
+
+    <!-- REST ASSURED API TESTS (Priority 2 — 6 tests) -->
+    <test name="RestAssured-API">
+        <classes>
+            <class name="com.ticketsystem.qa.api.tests.API01_LoginValidTest"/>
+            <class name="com.ticketsystem.qa.api.tests.API02_LoginInvalidTest"/>
+            <class name="com.ticketsystem.qa.api.tests.API03_TicketUrgentTest"/>
+            <class name="com.ticketsystem.qa.api.tests.API04_TicketLowTest"/>
+            <class name="com.ticketsystem.qa.api.tests.API05_UnauthorizedAccessTest"/>
+            <class name="com.ticketsystem.qa.api.tests.API06_RoleEnforcementTest"/>
+        </classes>
+    </test>
+
+    <!-- CUCUMBER BDD (4 scenarios) -->
+    <test name="Cucumber-BDD">
+        <classes>
+            <class name="com.ticketsystem.qa.bdd.runners.CucumberRunner"/>
+        </classes>
+    </test>
+
+</suite>
